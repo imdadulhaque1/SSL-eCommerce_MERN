@@ -32,7 +32,7 @@ const userSchema = Schema(
   },
   { timestamps: true }
 );
-
+ 
 userSchema.methods.generateJWT = function () {
   const token = jwt.sign(
     {
