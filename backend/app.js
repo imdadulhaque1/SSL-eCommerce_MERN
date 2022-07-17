@@ -16,7 +16,7 @@ if(process.env.NODE_ENV === "development"){
 }
 
 app.use('/api/user', userRoute);
-app.use('api/category', categoryRoute);
+app.use('/api/category', categoryRoute);
 
 app.use(error);
 

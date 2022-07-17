@@ -6,10 +6,12 @@ module.exports = async function (req, res, next){
     
     // TODO:=====> Bearer 123abcd
     else token = token.split(" ")[1].trim();
-    const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
-
-    //decoded => undefined
-    if(!decoded) return res.status(400).send("Invalid token!");
-    req.user = decoded;
-    next();
+    try{
+        const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+        req.user = decoded;
+        next();
+    }catch(err){
+        //decoded => undefined
+        return res.status(400).send("Invalid token!");
+    }
 }
