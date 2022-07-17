@@ -6,6 +6,7 @@ const morgan = require('morgan');
 
 const userRoute = require('./api/routers/userRoute');
 const categoryRoute = require('./api/routers/categoryRoute');
+const productRoute = require('./api/routers/productRoute');
 const error = require('./middlewares/error');
 
 app.use(express.json());
@@ -17,6 +18,7 @@ if(process.env.NODE_ENV === "development"){
 
 app.use('/api/user', userRoute);
 app.use('/api/category', categoryRoute);
+app.use('/api/product', productRoute);
 
 app.use(error);
 
