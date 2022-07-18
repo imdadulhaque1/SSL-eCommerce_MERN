@@ -1,14 +1,14 @@
 const {Schema, model} = require('mongoose');
 const Joi = require('joi');
 
-const Product = model('Product', Schema({
+module.exports.Product = model('Product', Schema({
     name: String,
     description: String,
     price: Number,
     category:{
         type: Schema.Types.ObjectId,
         ref: "Category",
-        required: true
+        required: true,
     },
     quantity: Number,
     photo: {
@@ -17,7 +17,7 @@ const Product = model('Product', Schema({
     }
 }, {timestamps: true}));
 
-const validate = product=>{
+module.exports.validate = product=>{
     const schema = Joi.object({
         name: Joi.string().min(3).max(255).required(),
         description: Joi.string().max(2000).required(),
@@ -26,9 +26,4 @@ const validate = product=>{
         category: Joi.string().required(),
     });
     return schema.validate(product);
-}
-
-
-module.exports={
-    Product, validate
 }

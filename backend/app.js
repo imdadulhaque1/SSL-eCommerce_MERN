@@ -3,11 +3,12 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
+const error = require('./middlewares/error');
 
 const userRoute = require('./api/routers/userRoute');
 const categoryRoute = require('./api/routers/categoryRoute');
 const productRoute = require('./api/routers/productRoute');
-const error = require('./middlewares/error');
+
 
 app.use(express.json());
 app.use(cors());
