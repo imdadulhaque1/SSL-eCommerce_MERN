@@ -70,9 +70,44 @@ const getProductPhoto = async (req, res) =>{
 }
 
 
+// Collect Form Data
+// Update Provided Form Fields
+// Update photo (If provided)
 const updateProductById = async (req, res) =>{
-    
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+    let form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+
+    form.parse(req, (err, fields, files) =>{
+        if(err) return res.status(400).send("Something Wrong!!!");
+        const updatedFields = _.pick(fields, ["name", "description", "price", "category", "quantity"]);
+        _.assignIn(product, updatedFields);
+
+        if(files.photo){
+            fs.readFile(files.photo.path, (err, data) =>{
+                if(err) return res.status(400).send("Something Went Wrong!!!");
+                product.photo.data = data;
+                product.photo.contentType = files.photo.type;
+                product.save((err, result) =>{
+                    if(err) return res.status(500).send("Something Failed!!!");
+                    else return res.status(200).send({
+                        message: "Product Updated Successfully!!!"
+                    })
+                })
+            })
+        }else{
+            product.save((err, result) =>{
+                if(err) return res.status(500).send("Something Failed!!!");
+                else return res.status(200).send({
+                    message: "Product Updated Successfully!!!"
+                })
+            })
+        }
+    })
 }
+
+
 
 module.exports ={
     createProduct, getProducts,
