@@ -33,8 +33,19 @@ const createProduct = async (req, res) =>{
         }
     })
 }
+
+//Query Parameter
+// api/product?order=desc&sortBy=name&limit=10
 const getProducts = async (req, res) =>{
-    const products = await Product.find();
+    console.log(req.query)
+    let order = req.query.order ==='desc'? -1:1;
+    let sortBy = req.query.sortBy ? req.query.sortBy: "_id";
+    let limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const products = await Product.find()
+        .select({photo: 0})
+        .sort({[sortBy]:order})
+        .limit(limit)
+        .populate('category', 'name'); //populate() is mainly used to call the existing anything
     return res.status(200).send(products);
 }
 const getProductById = async (req, res) =>{
