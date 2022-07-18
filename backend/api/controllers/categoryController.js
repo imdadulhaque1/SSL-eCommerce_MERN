@@ -18,6 +18,7 @@ const createCategory = async(req, res) =>{
 
 const getCategory = async (req, res) =>{
     const categories = await Category.find()
+        .select({_id:1, name:1})
         .sort({name:1})
     return res.status(200).send(categories);
 }

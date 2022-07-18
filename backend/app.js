@@ -3,10 +3,12 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
+const error = require('./middlewares/error');
 
 const userRoute = require('./api/routers/userRoute');
 const categoryRoute = require('./api/routers/categoryRoute');
-const error = require('./middlewares/error');
+const productRoute = require('./api/routers/productRoute');
+
 
 app.use(express.json());
 app.use(cors());
@@ -17,6 +19,7 @@ if(process.env.NODE_ENV === "development"){
 
 app.use('/api/user', userRoute);
 app.use('/api/category', categoryRoute);
+app.use('/api/product', productRoute);
 
 app.use(error);
 
